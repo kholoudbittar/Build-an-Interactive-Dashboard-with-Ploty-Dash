@@ -1,13 +1,19 @@
 # Build-an-Interactive-Dashboard-with-Ploty-Dash
+
 wget "https://cf-courses-data.s3.us.cloud-object-storage.appdomain.cloud/IBM-DS0321EN-SkillsNetwork/datasets/spacex_launch_dash.csv"
+
 wget "https://cf-courses-data.s3.us.cloud-object-storage.appdomain.cloud/IBM-DS0321EN-SkillsNetwork/labs/module_3/spacex_dash_app.py"
+
 python3.11 spacex_dash_app.py
+
 !pip install dash
 !pip install dash==1.19.0
 !pip install jupyter_dash
 !pip install --upgrade plotly
+
 from jupyter_dash.comms import _send_jupyter_config_comm_request
 _send_jupyter_config_comm_request()
+
 import pandas as pd
 import dash
 import dash_html_components as html
@@ -15,6 +21,7 @@ import dash_core_components as dcc
 from dash.dependencies import Input, Output
 from jupyter_dash import JupyterDash
 import plotly.graph_objects as go
+
 # Read the airline data into pandas dataframe
 spacex_df = pd.read_csv("spacex_launch_dash.csv")
 max_payload = spacex_df['Payload Mass (kg)'].max()
@@ -28,7 +35,7 @@ app.layout = html.Div(children=[html.H1('SpaceX Launch Records Dashboard',
                                         style={'textAlign': 'center', 'color': '#503D36',
                                                'font-size': 40}),
                                                
- # TASK 1: Add a dropdown list to enable Launch Site selection
+# TASK 1: Add a dropdown list to enable Launch Site selection
                                 # The default select value is for ALL sites
                                 # dcc.Dropdown(id='site-dropdown',...)
                                 dcc.Dropdown(id='site-dropdown',
@@ -43,15 +50,16 @@ app.layout = html.Div(children=[html.H1('SpaceX Launch Records Dashboard',
                                             placeholder="Select a Launch Site here", 
                                             searchable=True),
                                 html.Br(),
+                                
 
-                                # TASK 2: Add a pie chart to show the total successful launches count for all sites
+ # TASK 2: Add a pie chart to show the total successful launches count for all sites
                                 # If a specific launch site was selected, show the Success vs. Failed counts for the site
                                 html.Div(dcc.Graph(id='success-pie-chart')),
                                 html.Br(),
 
                                 html.P("Payload range (Kg):"),
-# Add a callback function for `site-dropdown` as input, `success-pie-chart` as output
-@app.callback(
+       # Add a callback function for `site-dropdown` as input, `success-pie-chart` as output
+       @app.callback(
     Output(component_id='success-pie-chart', component_property='figure'),
     Input(component_id='site-dropdown', component_property='value'))
 
